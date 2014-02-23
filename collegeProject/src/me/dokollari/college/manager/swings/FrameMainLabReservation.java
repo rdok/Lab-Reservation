@@ -58,6 +58,7 @@ public class FrameMainLabReservation extends JFrame {
             controller.retrieveData();
         } catch (Exception e) {
             e.printStackTrace();
+            setActivityMessagea(e.getMessage());
         }
     }
 

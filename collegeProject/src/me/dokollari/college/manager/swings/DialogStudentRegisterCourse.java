@@ -135,7 +135,7 @@ public class DialogStudentRegisterCourse extends JDialog {
         Student selectedStudent;
         try {
             selectedStudent = (Student) jCBselectStudent.getSelectedItem();
-            if (selectedCourse.registerStudent(selectedStudent.getStudent_id(), selectedStudent))
+            if (selectedCourse.registerStudent(selectedStudent))
                 jTAstudentList.setText(selectedCourse.displayClasslist());
         } catch(ControllerException k){
             JOptionPane.showMessageDialog(null, k.getMessage(), "Data Error", JOptionPane.WARNING_MESSAGE);

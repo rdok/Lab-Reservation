@@ -9,8 +9,8 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import me.dokollari.college.manager.mvc.ControllerException;
 import me.dokollari.college.manager.mvc.Controller;
+import me.dokollari.college.manager.mvc.ControllerException;
 
 
 /** @author Rizart Dokollari
@@ -24,7 +24,7 @@ public class Room implements Serializable {
     private String dateTitle;
     private String courseTitle;
 
-    public HashMap<String, me.dokollari.college.manager.models.Room> reservedRoomList;
+    private HashMap<String, me.dokollari.college.manager.models.Room> reservedRoomList;
     SimpleDateFormat dateformatter = new SimpleDateFormat("E MMM.dd.yyyy");
 
     //create a room
@@ -109,5 +109,9 @@ public class Room implements Serializable {
 
     public String getCourseTitle() {
         return courseTitle;
+    }
+
+    public HashMap<String, Room> getReservedRoomList() {
+        return reservedRoomList;
     }
 }

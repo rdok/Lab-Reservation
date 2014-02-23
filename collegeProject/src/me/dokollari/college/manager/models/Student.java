@@ -23,7 +23,7 @@ public class Student implements Serializable {
         this.studentID = ID;
     }
 
-    public Integer getStudent_id() {
+    public Integer getId() {
         return studentID;
     }
 

@@ -255,9 +255,9 @@ public class DialogRoomReservationsData extends JDialog {
         Iterator<Room> i = controller.getRoomList().iterator();
         while (i.hasNext()) {
             Room currentRoom = i.next();
-            if (currentRoom.reservedRoomList.containsKey(selectedDate)) {
+            if (currentRoom.getReservedRoomList().containsKey(selectedDate)) {
                 outPut +=
-                        currentRoom.reservedRoomList.get(selectedDate).getCourseTitle() + " " + currentRoom.reservedRoomList.get(selectedDate).getRoomTitle() +
+                        currentRoom.getReservedRoomList().get(selectedDate).getCourseTitle() + " " + currentRoom.getReservedRoomList().get(selectedDate).getRoomTitle() +
                         "\n";
                 found = true;
             }
@@ -325,9 +325,9 @@ public class DialogRoomReservationsData extends JDialog {
         Iterator<Room> i = controller.getRoomList().iterator();
         while (i.hasNext()) {
             Room currentRoom = i.next();
-            if (currentRoom.reservedRoomList.containsKey(currentDate)) {
+            if (currentRoom.getReservedRoomList().containsKey(currentDate)) {
                 outPut +=
-                        currentRoom.reservedRoomList.get(currentDate).getCourseTitle() + currentRoom.reservedRoomList.get(currentDate).getRoomTitle() +
+                        currentRoom.getReservedRoomList().get(currentDate).getCourseTitle() + currentRoom.getReservedRoomList().get(currentDate).getRoomTitle() +
                         "\n";
                 found = true;
             }
@@ -355,7 +355,7 @@ public class DialogRoomReservationsData extends JDialog {
         ArrayList<String> unSortedList = new ArrayList<String>();
         while (k.hasNext()) {
             Room theRoom = k.next();
-            if (!theRoom.reservedRoomList.containsKey(currentDate)) {
+            if (!theRoom.getReservedRoomList().containsKey(currentDate)) {
                 output += theRoom.getRoomTitle() + "\n";
             }
             size++;

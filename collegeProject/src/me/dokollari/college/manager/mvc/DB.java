@@ -9,8 +9,6 @@ import java.sql.Statement;
 
 import java.util.Properties;
 
-import javax.swing.JOptionPane;
-
 import me.dokollari.college.manager.swings.FrameMainLabReservation;
 
 public class DB {
@@ -23,11 +21,11 @@ public class DB {
     }
 
     public DB() {
-        try {
-            readDatabase();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        //        try {
+        //            readDatabase();
+        //        } catch (Exception e) {
+        //            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        //        }
     }
 
     public void readDatabase() throws Exception {
@@ -87,10 +85,7 @@ public class DB {
     static ResultSet getCourses() throws SQLException {
         FrameMainLabReservation.setActivityMessagea("Retrieving Courses Data");
 
-        Connection myConnection;
-
-        myConnection = getDBConnection();
-
+        Connection myConnection = getDBConnection();
         Statement coursesStatement = myConnection.createStatement();
         ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_COURSES);
 
@@ -98,7 +93,36 @@ public class DB {
         return resultSet;
     }
 
-    static ResultSet getInstructors() {
-        return null;
+    static ResultSet getInstructors() throws SQLException {
+        FrameMainLabReservation.setActivityMessagea("Retrieving Instructor Data");
+
+        Connection myConnection = getDBConnection();
+        Statement coursesStatement = myConnection.createStatement();
+        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_COURSES);
+
+        FrameMainLabReservation.setActivityMessagea("Retrieved Instructor Data");
+        return resultSet;
+    }
+
+    static ResultSet getRooms() throws SQLException {
+        FrameMainLabReservation.setActivityMessagea("Retrieving Rooms Data");
+
+        Connection myConnection = getDBConnection();
+        Statement coursesStatement = myConnection.createStatement();
+        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_ROOMS);
+
+        FrameMainLabReservation.setActivityMessagea("Retrieved Rooms Data");
+        return resultSet;
+    }
+
+    static ResultSet getReservedRooms() throws SQLException {
+        FrameMainLabReservation.setActivityMessagea("Retrieving Reserved Rooms Data");
+
+        Connection myConnection = getDBConnection();
+        Statement coursesStatement = myConnection.createStatement();
+        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_RESERVED_ROOMS);
+
+        FrameMainLabReservation.setActivityMessagea("Retrieved Reserved Rooms Data");
+        return resultSet;
     }
 }

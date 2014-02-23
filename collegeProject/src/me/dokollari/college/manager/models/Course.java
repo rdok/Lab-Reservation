@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.dokollari.college.manager.mvc.ControllerException;
 import me.dokollari.college.manager.mvc.Controller;
+import me.dokollari.college.manager.mvc.ControllerException;
 
 
 /** @author Rizart Dokollari
@@ -14,12 +14,12 @@ import me.dokollari.college.manager.mvc.Controller;
  */
 
 public class Course implements Serializable {
-    @SuppressWarnings("compatibility:2414272007692748558")
+    @SuppressWarnings("compatibility:5125067953816511869")
     private static final long serialVersionUID = 7654000207789267859L;
     private String courseTitle;
     private int instructorID;
     private int studentLimit;
-    public HashMap<Integer, me.dokollari.college.manager.models.Student> students;
+    private HashMap<Integer, me.dokollari.college.manager.models.Student> students;
 
 
     public Course(String course_title, int student_limit, int instructor_id) {
@@ -29,13 +29,14 @@ public class Course implements Serializable {
         students = new HashMap<Integer, me.dokollari.college.manager.models.Student>();
     }
 
-   
 
-    public boolean registerStudent(int newStudentID, me.dokollari.college.manager.models.Student newStudent) throws ControllerException {
-        if (students.containsKey(newStudentID))
+    public boolean registerStudent(Student newStudent) throws ControllerException {
+        int id = newStudent.getId();
+        if (students.containsKey(id)) {
             throw new ControllerException(Controller.duplicateData(newStudent));
-        else
-            students.put(newStudentID, newStudent);
+        } else {
+            students.put(id, newStudent);
+        }
         return true;
     }
 
@@ -67,7 +68,7 @@ public class Course implements Serializable {
         if (!(object instanceof me.dokollari.college.manager.models.Course)) {
             return false;
         }
-        final me.dokollari.college.manager.models.Course other = (me.dokollari.college.manager.models.Course)object;
+        final me.dokollari.college.manager.models.Course other = (me.dokollari.college.manager.models.Course) object;
         if (!(courseTitle == null ? other.courseTitle == null : courseTitle.equals(other.courseTitle))) {
             return false;
         }
@@ -87,4 +88,7 @@ public class Course implements Serializable {
         return studentLimit;
     }
 
+    public HashMap<Integer, Student> getStudents() {
+        return students;
+    }
 }

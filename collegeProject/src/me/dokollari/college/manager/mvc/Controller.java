@@ -174,7 +174,7 @@ public class Controller implements Serializable {
         Iterator<me.dokollari.college.manager.models.Room> i = roomList.iterator();
         while (i.hasNext()) {
             me.dokollari.college.manager.models.Room currentRoom = i.next();
-            if (currentRoom.reservedRoomList.containsKey(theRoom.getDateTitle())) {
+            if (currentRoom.getReservedRoomList().containsKey(theRoom.getDateTitle())) {
                 numReser++;
             }
         }
@@ -197,9 +197,9 @@ public class Controller implements Serializable {
         Iterator<me.dokollari.college.manager.models.Room> i = roomList.iterator();
         while (i.hasNext()) {
             me.dokollari.college.manager.models.Room loopRoom = i.next();
-            if (loopRoom.reservedRoomList.containsKey(selectedRoom.getDateTitle())) {
+            if (loopRoom.getReservedRoomList().containsKey(selectedRoom.getDateTitle())) {
                 me.dokollari.college.manager.models.Room checkRoom =
-                    loopRoom.reservedRoomList.get(selectedRoom.getDateTitle());
+                    loopRoom.getReservedRoomList().get(selectedRoom.getDateTitle());
                 if (checkRoom.getCourseTitle().equals(selectedRoom.getCourseTitle()))
                     throw new me.dokollari.college.manager.mvc.ControllerException("Course: \"" +
                                                                                    checkRoom.getCourseTitle() +
@@ -233,7 +233,7 @@ public class Controller implements Serializable {
         while (i.hasNext()) {
             int maxReserPerWeek = 3;
             me.dokollari.college.manager.models.Room currentRoom = i.next();
-            for (Map.Entry<String, me.dokollari.college.manager.models.Room> e : currentRoom.reservedRoomList.entrySet()) { //loop through all the entries of hash map
+            for (Map.Entry<String, me.dokollari.college.manager.models.Room> e : currentRoom.getReservedRoomList().entrySet()) { //loop through all the entries of hash map
                 currentCal = convertStringToCalendar(e.getValue().getDateTitle());
                 if (currentCal.get(currentCal.WEEK_OF_YEAR) == selectedCal.get(selectedCal.WEEK_OF_YEAR))
                     maxReserPerWeek--;
@@ -272,7 +272,7 @@ public class Controller implements Serializable {
      * @throws SQLException Will throw excpetion(appropirate message) in case
      * connectino can not done.
      */
-    public void retrieveData() {
+    public void retrieveData() throws ControllerException {
         try {
 
             ResultSet students = DB.getStudents();
@@ -288,59 +288,64 @@ public class Controller implements Serializable {
             }
 
             ResultSet coursesSet = DB.getCourses();
-            ResultSet studentsPercourseSet = coursesSet;
+            ResultSet studentsSet = DB.getStudents();
 
             int number_of_courses = 0;
 
             while (coursesSet.next()) {
-                String courseTitle = coursesSet.getString("course_title");
+                String courseTitle = coursesSet.getString("title");
                 int studentsLimit = coursesSet.getInt("students_limit");
                 int instructorID = coursesSet.getInt("instructor_id");
                 courses.add(new Course(courseTitle, studentsLimit, instructorID));
 
-                // check current course
+                // check current course (JOIN)
                 Course currentCourse = courses.get(number_of_courses);
-                while (studentsPercourseSet.next()) {
-                    if (currentCourse.getCourseTitle().equals(studentsPercourseSet.getString("course_title")))
-                        currentCourse.students.put(studentsPercourseSet.getInt("student_id"),
-                                              studentsList.get(studentsPercourseSet.getInt("student_id")));
+                while (studentsSet.next()) {
+                    if (currentCourse.getCourseTitle().equals(studentsSet.getString("course_title")))
+                        currentCourse.registerStudent(studentsList.get(studentsSet.getInt("id")));
                 }
                 number_of_courses++;
             }
 
-            //            ResultSet instructors_set =
-            //                statement_insertStudents.executeQuery("select instructor_id, last_name, first_name from instructors");
-            //            while (instructors_set.next()) {
-            //                instructorsList.put(instructors_set.getInt("instructor_id"),
-            //                                    new me.dokollari.college_manager.models.Instructor(instructors_set.getString("last_name"),
-            //                                                                                       instructors_set.getString("first_name"),
-            //                                                                                       instructors_set.getInt("instructor_id")));
-            //            }
-            //            /*
-            //         *
-            //         *
-            //         */
-            //            ResultSet roomsSet = statement_insertStudents.executeQuery("select room_title from rooms");
-            //
-            //            int roomEntry = 0;
-            //            while (roomsSet.next()) {
-            //                me.dokollari.college_manager.models.Room aRoom =
-            //                    new me.dokollari.college_manager.models.Room(roomsSet.getString("room_title"));
-            //                roomList.add(aRoom);
-            //                ResultSet reservedRoomSet =
-            //                    myStatement2.executeQuery("select room_title, date_title, course_title from reserved_rooms");
-            //                while (reservedRoomSet.next()) {
-            //                    if (reservedRoomSet.getString("room_title").equals(aRoom.getRoomTitle()))
-            //                        aRoom.reservedRoomList.put(reservedRoomSet.getString("date_title"),
-            //                                                   new me.dokollari.college_manager.models.Room(reservedRoomSet.getString("room_title"),
-            //                                                                                                reservedRoomSet.getString("date_title"),
-            //                                                                                                reservedRoomSet.getString("course_title")));
-            //                }
-            //                roomEntry++;
-            //            }
-            //            statement_insertStudents.close();
-            //            myStatement2.close();
-            //            myConnection.close();
+            ResultSet instructorSet = DB.getInstructors();
+            while (instructorSet.next()) {
+                int instructorID = instructorSet.getInt("id");
+                String lastName = instructorSet.getString("last_name");
+                String firstName = instructorSet.getString("first_name");
+                instructorsList.put(instructorID, new Instructor(lastName, firstName, instructorID));
+            }
+
+            ResultSet roomsSet = DB.getRooms();
+            ResultSet reservedRoomSet = DB.getReservedRooms();
+
+            int roomEntry = 0;
+            while (roomsSet.next()) {
+                String emptyRoomTitle = roomsSet.getString("title");
+
+                Room room = new Room(emptyRoomTitle);
+                roomList.add(room);
+
+                Room currentRoom = getRoomList().get(number_of_courses);
+                while (reservedRoomSet.next()) {
+                    String dateReserved = reservedRoomSet.getString("date");
+                    String reservedRoomTitle = reservedRoomSet.getString("title");
+
+                    if (emptyRoomTitle.equals(currentRoom.getRoomTitle())) {
+                        room.getReservedRoomList().put(dateReserved,
+                                                       new Room(emptyRoomTitle, dateReserved, reservedRoomTitle));
+                    } // end if
+                } // end while
+                roomEntry++;
+            }
+
+            students.close();
+            coursesSet.close();
+            studentsSet.close();
+            instructorSet.close();
+            roomsSet.close();
+            reservedRoomSet.close();
+
+
         } catch (SQLException k) {
             // JOptionPane.showMessageDialog(null, k.getMessage());
             FrameMainLabReservation.setActivityMessagea("Internal Error Occurred. <br />Mouse hover for more details.");
@@ -365,7 +370,7 @@ public class Controller implements Serializable {
             myStatement.executeUpdate("delete from students");
             for (Map.Entry<Integer, me.dokollari.college.manager.models.Student> e : studentsList.entrySet()) {
                 myStatement.executeUpdate("insert into students (student_id, last_name, first_name, advisor_id)values(" +
-                                          e.getValue().getStudent_id() + ", '" + e.getValue().getLastName() + "','" +
+                                          e.getValue().getId() + ", '" + e.getValue().getLastName() + "','" +
                                           e.getValue().getFirstName() + "'," + e.getValue().getAdvisor() + ")");
             }
 
@@ -384,19 +389,20 @@ public class Controller implements Serializable {
                 myStatement.executeUpdate("insert into courses (course_title, students_limit, instructor_id ) values('" +
                                           a_course.getCourseTitle() + "', " + a_course.getStudentLimit() + ", " +
                                           a_course.getInstructorID() + ")");
-                for (Map.Entry<Integer, me.dokollari.college.manager.models.Student> e : a_course.students.entrySet())
+                for (Map.Entry<Integer, me.dokollari.college.manager.models.Student> e :
+                     a_course.getStudents().entrySet())
                     myStatement.executeUpdate("insert into students_course(course_title, student_id)values('" +
-                                              a_course.getCourseTitle() + "', " + e.getValue().getStudent_id());
+                                              a_course.getCourseTitle() + "', " + e.getValue().getId());
             }
 
-            myStatement.executeUpdate("delete  from rooms");
-            myStatement.executeUpdate("delete  from reserved_rooms");
+            myStatement.executeUpdate("delete from rooms");
+            myStatement.executeUpdate("delete from reserved_rooms");
             Iterator<me.dokollari.college.manager.models.Room> k = roomList.iterator();
             while (k.hasNext()) {
                 me.dokollari.college.manager.models.Room a_room = k.next();
                 myStatement.executeUpdate("insert into rooms (room_title)values('" + a_room.getRoomTitle() + "')");
                 for (Map.Entry<String, me.dokollari.college.manager.models.Room> e :
-                     a_room.reservedRoomList.entrySet()) {
+                     a_room.getReservedRoomList().entrySet()) {
                     myStatement1.executeUpdate("insert into reserved_rooms (room_title, date_title, course_title)values('" +
                                                e.getValue().getRoomTitle() + "','" + e.getValue().getDateTitle() +
                                                "','" + e.getValue().getCourseTitle() + "')");

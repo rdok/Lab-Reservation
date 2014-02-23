@@ -5,11 +5,14 @@ public class DB_queries {
 
     public static final String SELECT_STUDENTS = "SELECT * FROM labsdb.students;";
     public static final String SELECT_COURSES = "SELECT * FROM labsdb.courses;";
-
+    static final String SELECT_RESERVED_ROOMS = "SELECT * FROM labsdb.reserved_rooms;";
+    static final String SELECT_ROOMS = "SELECT * FROM labsdb.rooms;";
+    
     public static final String STUDENT_ID = "id";
     public static final String STUDENT_LAST_NAME = "last_name";
     public static final String STUDENT_FIRST_NAME = "first_name";
     public static final String STUDENT_ADVISOR_ID = "advisor_id";
+
 
     public final String INSERT_CLASS =
         "INSERT INTO `collegedb`.`classes` (`name`, `courses_id`, `instructors_id`, `max_students`) VALUES ('102', '1', '1', '14');";
