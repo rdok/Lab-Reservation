@@ -2,10 +2,8 @@ package me.dokollari.college.manager.mvc;
 
 import java.io.Serializable;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,12 +17,12 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 
 import me.dokollari.college.manager.models.Course;
 import me.dokollari.college.manager.models.Instructor;
 import me.dokollari.college.manager.models.Room;
 import me.dokollari.college.manager.models.Student;
-import me.dokollari.college.manager.swings.FrameMainLabReservation;
 
 /**
  *
@@ -272,10 +270,11 @@ public class Controller implements Serializable {
      * @throws SQLException Will throw excpetion(appropirate message) in case
      * connectino can not done.
      */
-    public void retrieveData() throws ControllerException {
+    public void retrieveData(JProgressBar jPB_db) throws ControllerException {
         try {
+            DB db = new DB(jPB_db);
 
-            ResultSet students = DB.getStudents();
+            ResultSet students = db.getStudents();
 
             while (students.next()) { // while db has more students.
                 int studentID = students.getInt(DB_queries.STUDENT_ID);
@@ -285,10 +284,10 @@ public class Controller implements Serializable {
                 Student student = new Student(studentID, studentLastName, studentFirstName);
                 student.setAdvisor(advisorID);
                 studentsList.put(studentID, student);
-            }
+            } // end while
 
-            ResultSet coursesSet = DB.getCourses();
-            ResultSet studentsSet = DB.getStudents();
+            ResultSet coursesSet = db.getCourses();
+            ResultSet studentsSet = db.getStudents();
 
             int number_of_courses = 0;
 
@@ -307,7 +306,7 @@ public class Controller implements Serializable {
                 number_of_courses++;
             }
 
-            ResultSet instructorSet = DB.getInstructors();
+            ResultSet instructorSet = db.getInstructors();
             while (instructorSet.next()) {
                 int instructorID = instructorSet.getInt("id");
                 String lastName = instructorSet.getString("last_name");
@@ -315,8 +314,8 @@ public class Controller implements Serializable {
                 instructorsList.put(instructorID, new Instructor(lastName, firstName, instructorID));
             }
 
-            ResultSet roomsSet = DB.getRooms();
-            ResultSet reservedRoomSet = DB.getReservedRooms();
+            ResultSet roomsSet = db.getRooms();
+            ResultSet reservedRoomSet = db.getReservedRooms();
 
             int roomEntry = 0;
             while (roomsSet.next()) {
@@ -345,11 +344,11 @@ public class Controller implements Serializable {
             roomsSet.close();
             reservedRoomSet.close();
 
+            jPB_db.setString(Integer.toString(jPB_db.getValue()) + "% All data succesfully retrieved");
 
         } catch (SQLException k) {
-            // JOptionPane.showMessageDialog(null, k.getMessage());
-            FrameMainLabReservation.setActivityMessagea("Internal Error Occurred. <br />Mouse hover for more details.");
-            FrameMainLabReservation.setActivitToolTip(k.getMessage());
+            jPB_db.setString(Integer.toString(jPB_db.getValue()) + "% Critical Error. Hover for details.");
+            jPB_db.setToolTipText(k.getMessage());
 
         }
     }
@@ -360,61 +359,62 @@ public class Controller implements Serializable {
      *
      * @throws SQLException It will remind the user that the data is losed since no connection is available.
      */
-    public void writeData() throws SQLException {
+    public void writeData(JProgressBar jPB_db) throws SQLException {
 
-        try {
-            Connection myConnection = DB.getDBConnection();
-            Statement myStatement = myConnection.createStatement();
-            Statement myStatement1 = myConnection.createStatement();
-
-            myStatement.executeUpdate("delete from students");
-            for (Map.Entry<Integer, me.dokollari.college.manager.models.Student> e : studentsList.entrySet()) {
-                myStatement.executeUpdate("insert into students (student_id, last_name, first_name, advisor_id)values(" +
-                                          e.getValue().getId() + ", '" + e.getValue().getLastName() + "','" +
-                                          e.getValue().getFirstName() + "'," + e.getValue().getAdvisor() + ")");
-            }
-
-            myStatement.executeUpdate("delete from instructors");
-            for (Map.Entry<Integer, me.dokollari.college.manager.models.Instructor> e : instructorsList.entrySet()) {
-                myStatement.executeUpdate("insert into instructors (last_name, first_name, instructor_id)values('" +
-                                          e.getValue().getLastName() + "','" + e.getValue().getFirstName() + "'," +
-                                          e.getValue().getInstructorID() + ")");
-            }
-
-            myStatement.executeUpdate("delete from courses");
-            myStatement.executeUpdate("delete from students_course");
-            Iterator<me.dokollari.college.manager.models.Course> i = courses.iterator();
-            while (i.hasNext()) {
-                me.dokollari.college.manager.models.Course a_course = i.next();
-                myStatement.executeUpdate("insert into courses (course_title, students_limit, instructor_id ) values('" +
-                                          a_course.getCourseTitle() + "', " + a_course.getStudentLimit() + ", " +
-                                          a_course.getInstructorID() + ")");
-                for (Map.Entry<Integer, me.dokollari.college.manager.models.Student> e :
-                     a_course.getStudents().entrySet())
-                    myStatement.executeUpdate("insert into students_course(course_title, student_id)values('" +
-                                              a_course.getCourseTitle() + "', " + e.getValue().getId());
-            }
-
-            myStatement.executeUpdate("delete from rooms");
-            myStatement.executeUpdate("delete from reserved_rooms");
-            Iterator<me.dokollari.college.manager.models.Room> k = roomList.iterator();
-            while (k.hasNext()) {
-                me.dokollari.college.manager.models.Room a_room = k.next();
-                myStatement.executeUpdate("insert into rooms (room_title)values('" + a_room.getRoomTitle() + "')");
-                for (Map.Entry<String, me.dokollari.college.manager.models.Room> e :
-                     a_room.getReservedRoomList().entrySet()) {
-                    myStatement1.executeUpdate("insert into reserved_rooms (room_title, date_title, course_title)values('" +
-                                               e.getValue().getRoomTitle() + "','" + e.getValue().getDateTitle() +
-                                               "','" + e.getValue().getCourseTitle() + "')");
-                }
-
-            }
-            myStatement.close();
-            myStatement1.close();
-            myConnection.close();
-        } catch (SQLException k) {
-            JOptionPane.showMessageDialog(null, "Thank you for using this program. Your data has been deleted.");
-        }
+        //        try {
+        //            DB db = new DB(jPB_db);
+        //           // Connection myConnection = db.getDBConnection();
+        //            Statement myStatement = myConnection.createStatement();
+        //            Statement myStatement1 = myConnection.createStatement();
+        //
+        //            myStatement.executeUpdate("delete from students");
+        //            for (Map.Entry<Integer, me.dokollari.college.manager.models.Student> e : studentsList.entrySet()) {
+        //                myStatement.executeUpdate("insert into students (student_id, last_name, first_name, advisor_id)values(" +
+        //                                          e.getValue().getId() + ", '" + e.getValue().getLastName() + "','" +
+        //                                          e.getValue().getFirstName() + "'," + e.getValue().getAdvisor() + ")");
+        //            }
+        //
+        //            myStatement.executeUpdate("delete from instructors");
+        //            for (Map.Entry<Integer, me.dokollari.college.manager.models.Instructor> e : instructorsList.entrySet()) {
+        //                myStatement.executeUpdate("insert into instructors (last_name, first_name, instructor_id)values('" +
+        //                                          e.getValue().getLastName() + "','" + e.getValue().getFirstName() + "'," +
+        //                                          e.getValue().getInstructorID() + ")");
+        //            }
+        //
+        //            myStatement.executeUpdate("delete from courses");
+        //            myStatement.executeUpdate("delete from students_course");
+        //            Iterator<me.dokollari.college.manager.models.Course> i = courses.iterator();
+        //            while (i.hasNext()) {
+        //                me.dokollari.college.manager.models.Course a_course = i.next();
+        //                myStatement.executeUpdate("insert into courses (course_title, students_limit, instructor_id ) values('" +
+        //                                          a_course.getCourseTitle() + "', " + a_course.getStudentLimit() + ", " +
+        //                                          a_course.getInstructorID() + ")");
+        //                for (Map.Entry<Integer, me.dokollari.college.manager.models.Student> e :
+        //                     a_course.getStudents().entrySet())
+        //                    myStatement.executeUpdate("insert into students_course(course_title, student_id)values('" +
+        //                                              a_course.getCourseTitle() + "', " + e.getValue().getId());
+        //            }
+        //
+        //            myStatement.executeUpdate("delete from rooms");
+        //            myStatement.executeUpdate("delete from reserved_rooms");
+        //            Iterator<me.dokollari.college.manager.models.Room> k = roomList.iterator();
+        //            while (k.hasNext()) {
+        //                me.dokollari.college.manager.models.Room a_room = k.next();
+        //                myStatement.executeUpdate("insert into rooms (room_title)values('" + a_room.getRoomTitle() + "')");
+        //                for (Map.Entry<String, me.dokollari.college.manager.models.Room> e :
+        //                     a_room.getReservedRoomList().entrySet()) {
+        //                    myStatement1.executeUpdate("insert into reserved_rooms (room_title, date_title, course_title)values('" +
+        //                                               e.getValue().getRoomTitle() + "','" + e.getValue().getDateTitle() +
+        //                                               "','" + e.getValue().getCourseTitle() + "')");
+        //                }
+        //
+        //            }
+        //            myStatement.close();
+        //            myStatement1.close();
+        //            myConnection.close();
+        //        } catch (SQLException k) {
+        //            JOptionPane.showMessageDialog(null, "Thank you for using this program. Your data has been deleted.");
+        //        }
     }
 
 

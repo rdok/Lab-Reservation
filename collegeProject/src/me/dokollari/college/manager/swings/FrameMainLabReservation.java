@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 
 import me.dokollari.college.manager.mvc.Controller;
 
@@ -34,31 +33,21 @@ public class FrameMainLabReservation extends JFrame {
     private static final long serialVersionUID = -1510868791910636585L;
 
     private Controller controller;
-    private JPanel jPanel1 = new JPanel();
-    private static JLabel jL_activity = new JLabel();
     private BorderLayout borderLayout1 = new BorderLayout();
     private JPanel jPanel2 = new JPanel();
-    private BorderLayout borderLayout2 = new BorderLayout();
-    private JPanel jPanel3 = new JPanel();
-    private BorderLayout borderLayout3 = new BorderLayout();
-
-    public void setJL_activity(JLabel jL_activity) {
-        this.jL_activity = jL_activity;
-    }
-
-    public JLabel getJL_activity() {
-        return jL_activity;
-    }
-    private JProgressBar jProgressBar1 = new JProgressBar();
+    private JProgressBar jPB_db = new JProgressBar();
 
     public FrameMainLabReservation() {
         try {
+            jPB_db.setStringPainted(true);
             jbInit();
+            
             controller = new Controller();
-            controller.retrieveData();
+            controller.retrieveData(jPB_db);
         } catch (Exception e) {
             e.printStackTrace();
-            setActivityMessagea(e.getMessage());
+            jPB_db.setString(Integer.toString(jPB_db.getValue()) + "% Critical Error. Hover for details.");
+            jPB_db.setToolTipText(e.getMessage());
         }
     }
 
@@ -132,30 +121,18 @@ public class FrameMainLabReservation extends JFrame {
             }
         });
         jSeparator1.setBounds(new Rectangle(115, 215, 530, 25));
-        jPanel3.setBounds(new Rectangle(490, 230, 145, 95));
-        jPanel3.setLayout(borderLayout3);
         jPanel2.setBounds(new Rectangle(235, 25, 315, 160));
-        jL_activity.setText("Activity");
-        jL_activity.setHorizontalAlignment(SwingConstants.LEFT);
 
-        jProgressBar1.setSize(new Dimension(155, 14));
-        jPanel1.setBounds(new Rectangle(30, 295, 235, 55));
-        jPanel1.setFocusable(false);
-        jPanel1.setRequestFocusEnabled(false);
-        jPanel1.setVerifyInputWhenFocusTarget(false);
-        jPanel1.setLayout(borderLayout2);
-        jPanel1.setBackground(new Color(75, 237, 114));
+        jPB_db.setSize(new Dimension(155, 14));
+        jPB_db.setBounds(new Rectangle(490, 325, 240, 35));
         jPanel2.add(jL_imageDeree, null);
-        this.getContentPane().add(jPanel3, null);
         this.getContentPane().add(jPanel2, null);
-        jPanel1.add(jProgressBar1, BorderLayout.SOUTH);
-        jPanel1.add(jL_activity, BorderLayout.CENTER);
-        this.getContentPane().add(jPanel1, null);
         this.getContentPane().add(jSeparator1, null);
         this.getContentPane().add(jB_quit, null);
         this.getContentPane().add(jB_editLabsReservation, null);
         this.getContentPane().add(jB_editCollegeData, null);
         this.getContentPane().add(jB_roomsLabData, null);
+        this.getContentPane().add(jPB_db, null);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setBackground(new Color(110, 237, 228));
@@ -167,7 +144,7 @@ public class FrameMainLabReservation extends JFrame {
     }
 
     void fileExit_ActionPerformed(ActionEvent e) throws SQLException {
-        controller.writeData();
+       // controller.writeData();
         System.exit(0);
     }
 
@@ -185,21 +162,5 @@ public class FrameMainLabReservation extends JFrame {
 
     private void jButton9_actionPerformed(ActionEvent e) {
         System.exit(0);
-    }
-
-    /**
-     *  Informs user on the various activities of app. (db mainly)
-     * @param message to for the jL_acitivity to show
-     */
-    public static void setActivityMessagea(String message) {
-        String mess = "Activity: ";
-        mess += message;
-        mess = "<html>" + mess + "</html>";
-        jL_activity.setText(mess);
-    }
-
-    public static void setActivitToolTip(String message) {
-        jL_activity.setToolTipText(message);
-
     }
 }

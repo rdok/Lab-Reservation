@@ -2,53 +2,24 @@ package me.dokollari.college.manager.mvc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.Properties;
 
-import me.dokollari.college.manager.swings.FrameMainLabReservation;
+import javax.swing.JProgressBar;
 
 public class DB {
     private final static String DB_CONNECTION = "jdbc:mysql://db4free.net:3306/labsdb";
     private final static String DB_USER = "labsadmin";
     private final static String DB_PASSWORD = "fxWI7MSvqKcEo1lHg8v7";
+    private Connection connection;
+    private JProgressBar jPB_db;
 
-    public static void main(String[] args) {
-        new me.dokollari.college.manager.mvc.DB();
-    }
-
-    public DB() {
-        //        try {
-        //            readDatabase();
-        //        } catch (Exception e) {
-        //            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        //        }
-    }
-
-    public void readDatabase() throws Exception {
-        Connection connection = null;
-        Statement statement = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String selectSQL = "SELECT * FROM patients";
-
-
-        connection = getDBConnection();
-        preparedStatement = connection.prepareStatement(selectSQL);
-        // preparedStatement.setInt(1, 1001);
-
-        // execute select SQL statement
-        resultSet = preparedStatement.executeQuery(selectSQL);
-
-        while (resultSet.next()) {
-            String patientId = resultSet.getString("id_app");
-            String patientSurgery = resultSet.getString("surgery");
-
-            System.out.printf("Patient id: %s\tPatient surgery: %s", patientId, patientSurgery);
-        }
+    public DB(JProgressBar jPB_db) throws SQLException {
+        setJPB_db(jPB_db);
+        setConnection(establishDBConnection());
     }
 
     /**
@@ -58,71 +29,106 @@ public class DB {
      *
      * @return
      */
-    public static Connection getDBConnection() throws SQLException {
-        Connection connection = null;
+    private Connection establishDBConnection() throws SQLException {
+        jPB_db.setValue(jPB_db.getValue());
+        jPB_db.setString(Integer.toString(jPB_db.getValue()) + "% Establishing database connection");
 
+        Connection connection = null;
         Properties connectionProps = new Properties();
         connectionProps.put("user", DB_USER);
         connectionProps.put("password", DB_PASSWORD);
         connection = DriverManager.getConnection(DB_CONNECTION, connectionProps);
+
+        jPB_db.setValue(jPB_db.getValue() + 8);
+        jPB_db.setString(Integer.toString(jPB_db.getValue()) + "% Database connection established");
+
         return connection;
     }
 
-    static ResultSet getStudents() throws SQLException {
-        FrameMainLabReservation.setActivityMessagea("Retrieving Student Data");
+    ResultSet getStudents() throws SQLException {
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving Student Data");
 
-        Connection myConnection;
-
-        myConnection = getDBConnection();
-
-        Statement statement_insertStudents = myConnection.createStatement();
+        Statement statement_insertStudents = getConnection().createStatement();
         ResultSet resultSet = statement_insertStudents.executeQuery(DB_queries.SELECT_STUDENTS);
 
-        FrameMainLabReservation.setActivityMessagea("Retrieved Student Data");
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieved Student Data");
+        
         return resultSet;
     }
 
-    static ResultSet getCourses() throws SQLException {
-        FrameMainLabReservation.setActivityMessagea("Retrieving Courses Data");
+    ResultSet getCourses() throws SQLException {
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving Courses Data");
+        
+        Statement coursesStatement = getConnection().createStatement();
+        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_COURSES);
 
-        Connection myConnection = getDBConnection();
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieved Courses Data");
+        return resultSet;
+    }
+
+    ResultSet getInstructors() throws SQLException {
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving Instructor Data");
+        
+        Connection myConnection = getConnection();
         Statement coursesStatement = myConnection.createStatement();
         ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_COURSES);
 
-        FrameMainLabReservation.setActivityMessagea("Retrieved Courses Data");
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving Instructor Data");
         return resultSet;
     }
 
-    static ResultSet getInstructors() throws SQLException {
-        FrameMainLabReservation.setActivityMessagea("Retrieving Instructor Data");
-
-        Connection myConnection = getDBConnection();
-        Statement coursesStatement = myConnection.createStatement();
-        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_COURSES);
-
-        FrameMainLabReservation.setActivityMessagea("Retrieved Instructor Data");
-        return resultSet;
-    }
-
-    static ResultSet getRooms() throws SQLException {
-        FrameMainLabReservation.setActivityMessagea("Retrieving Rooms Data");
-
-        Connection myConnection = getDBConnection();
+    ResultSet getRooms() throws SQLException {
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving Rooms Data");
+        
+        
+        Connection myConnection = getConnection();
         Statement coursesStatement = myConnection.createStatement();
         ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_ROOMS);
 
-        FrameMainLabReservation.setActivityMessagea("Retrieved Rooms Data");
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieved Instructor Data");
         return resultSet;
     }
 
-    static ResultSet getReservedRooms() throws SQLException {
-        FrameMainLabReservation.setActivityMessagea("Retrieving Reserved Rooms Data");
-
-        Connection myConnection = getDBConnection();
+    ResultSet getReservedRooms() throws SQLException {
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving Reserved Rooms Data");
+        
+        Connection myConnection = getConnection();
         Statement coursesStatement = myConnection.createStatement();
         ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_RESERVED_ROOMS);
-
-        FrameMainLabReservation.setActivityMessagea("Retrieved Reserved Rooms Data");
+        
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieved Reserved Rooms Data");
         return resultSet;
+    } // end method getReservedRooms
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
-}
+
+    public Connection getConnection() throws SQLException {
+
+        // verify db connection
+        if (connection.isClosed()) {
+            getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Re-establishing database connection");
+            setConnection(establishDBConnection());
+        } // end if
+        return connection;
+    }
+
+    public void setJPB_db(JProgressBar jPB_db) {
+        this.jPB_db = jPB_db;
+    }
+
+    public JProgressBar getJPB_db() {
+        return jPB_db;
+    }
+} // end DB class
