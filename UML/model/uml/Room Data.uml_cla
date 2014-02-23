@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
+ <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
+ <uml:Class xmi:uuid='urn:uuid:5786495a-9bdc-4121-a86a-3ceb602879ee'
+   isAbstract='false'
+   isActive='false'
+   isLeaf='false'
+   name='Room Data'
+   visibility='public'>
+  <useCase href='urn:uuid:dbe3ed1e-5ebd-4aaf-9040-c859f2169f75'/>
+  <useCase href='urn:uuid:06937215-591f-4140-8ea6-921dca7634c4'/>
+  <useCase href='urn:uuid:aac377e5-c97c-4ce4-9724-ec1d91ab31a3'/>
+  <ownedComment xmi:uuid='urn:uuid:6ed2b2e6-ffa9-440e-85bc-035d3e32c402'
+    body='uml_uc:Subject'/>
+ </uml:Class>
+</xmi:XMI>

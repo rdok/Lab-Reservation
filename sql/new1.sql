@@ -1,0 +1,1 @@
+SELECT * FROM collegedb.instructors;

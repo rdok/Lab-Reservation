@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
+ <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
+ <uml:UseCase xmi:uuid='urn:uuid:eeece34f-2a8f-4cca-807b-7d81cd8311c7'
+   isAbstract='false'
+   isLeaf='false'
+   name='Edit Student Data'
+   visibility='public'>
+  <extend xmi:uuid='urn:uuid:022cf671-8401-4337-aa21-80cac487acc7'>
+   <extendedCase href='urn:uuid:12be8bbc-32ba-481f-b9ec-3f7397d63fe1'/>
+   <extensionLocation href='urn:uuid:76c417b1-db9d-4ee7-a9b1-4c6a5b069078'/>
+  </extend>
+  <extend xmi:uuid='urn:uuid:ab0f80dd-b578-4567-b984-5be1ea68d284'>
+   <extendedCase href='urn:uuid:81a1ba49-c291-4f98-901b-0b398f44b62f'/>
+   <extensionLocation href='urn:uuid:778173ab-5b8b-463e-bbfd-b808d2ffcb7e'/>
+  </extend>
+  <include xmi:uuid='urn:uuid:6017f0c3-3980-4774-8ab3-8458c8e01c84'>
+   <addition href='urn:uuid:a41ce7d7-e589-48c1-a5b5-830eea5a1ac1'/>
+  </include>
+ </uml:UseCase>
+</xmi:XMI>

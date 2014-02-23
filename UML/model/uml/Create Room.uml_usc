@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
+ <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
+ <uml:UseCase xmi:uuid='urn:uuid:06937215-591f-4140-8ea6-921dca7634c4'
+   isAbstract='false'
+   isLeaf='false'
+   name='Create Room'
+   visibility='public'>
+  <subject href='urn:uuid:5786495a-9bdc-4121-a86a-3ceb602879ee'/>
+  <extend xmi:uuid='urn:uuid:90137581-d606-462d-86e1-d04f5902cacd'>
+   <extendedCase href='urn:uuid:aac377e5-c97c-4ce4-9724-ec1d91ab31a3'/>
+   <extensionLocation href='urn:uuid:b6f3b46d-660d-433b-9c32-754588d94aa0'/>
+  </extend>
+ </uml:UseCase>
+</xmi:XMI>

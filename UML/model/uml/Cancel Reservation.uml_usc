@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
+ <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
+ <uml:UseCase xmi:uuid='urn:uuid:213d1daf-62f6-49db-8f8c-9c5d586c81b6'
+   isAbstract='false'
+   isLeaf='false'
+   name='Cancel Reservation'
+   visibility='public'>
+  <subject href='urn:uuid:b3ed5d79-9a5a-4ecc-b309-554c11f1eeb1'/>
+  <extend xmi:uuid='urn:uuid:c6571133-2384-453f-a429-67c9b6f00eb0'>
+   <extendedCase href='urn:uuid:68fa5042-9b97-4c3a-bb4f-705af8844673'/>
+   <extensionLocation href='urn:uuid:5064c35f-f2ac-4c1a-8e36-d59492ad87d9'/>
+  </extend>
+ </uml:UseCase>
+</xmi:XMI>

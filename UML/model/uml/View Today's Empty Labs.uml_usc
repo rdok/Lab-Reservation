@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
+ <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
+ <uml:UseCase xmi:uuid='urn:uuid:1d9a5066-73cd-4668-84c2-907623b7a7d7'
+   isAbstract='false'
+   isLeaf='false'
+   name='View Today&apos;s Empty Labs'
+   visibility='public'>
+  <subject href='urn:uuid:44d7d1be-5fc9-4c46-acfa-5d6848771050'/>
+  <extensionPoint xmi:uuid='urn:uuid:0cb90fce-f27d-4464-8a45-413272a0072d'
+    isLeaf='false'
+    name='DefaultExtensionPoint'/>
+ </uml:UseCase>
+</xmi:XMI>

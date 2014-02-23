@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
+ <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
+ <uml:UseCase xmi:uuid='urn:uuid:e769d818-448b-455f-a20c-f18004e48eb0'
+   isAbstract='false'
+   isLeaf='false'
+   name='Register Instrutor'
+   visibility='public'>
+  <subject href='urn:uuid:0a03e1b9-3d5f-4183-8a46-f7a9c82a297e'/>
+  <include xmi:uuid='urn:uuid:096c884e-6b15-419f-891f-dcb054a97304'>
+   <addition href='urn:uuid:77a88c97-20d2-4b2f-a74e-69334add053f'/>
+  </include>
+ </uml:UseCase>
+</xmi:XMI>

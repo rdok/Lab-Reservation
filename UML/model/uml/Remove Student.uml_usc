@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
+ <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
+ <uml:UseCase xmi:uuid='urn:uuid:12be8bbc-32ba-481f-b9ec-3f7397d63fe1'
+   isAbstract='false'
+   isLeaf='false'
+   name='Remove Student'
+   visibility='public'>
+  <extend xmi:uuid='urn:uuid:1d31b489-6977-4a88-a8a8-b2abccf1eef1'>
+   <extendedCase href='urn:uuid:0732f3c3-656e-452f-bbe9-6e8136fa27f0'/>
+   <extensionLocation href='urn:uuid:449f4786-4d5e-48ca-b091-88ed46673649'/>
+  </extend>
+  <extensionPoint xmi:uuid='urn:uuid:76c417b1-db9d-4ee7-a9b1-4c6a5b069078'
+    isLeaf='false'
+    name='DefaultExtensionPoint'/>
+ </uml:UseCase>
+</xmi:XMI>
