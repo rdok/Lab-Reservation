@@ -1,9 +1,0 @@
-<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
-<xmi:XMI xmi:version='2.1' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1' xmlns:uml='http://schema.omg.org/spec/UML/2.1.1/uml.xml'>
- <documentation exporter='Oracle JDeveloper' exporterVersion='11.1.2.1.0'/>
- <uml:UseCase xmi:uuid='urn:uuid:01948ca8-fe6c-4bb3-b617-7fcc91e618e2'
-   isAbstract='false'
-   isLeaf='false'
-   name='View Student Regis'
-   visibility='public'/>
-</xmi:XMI>
