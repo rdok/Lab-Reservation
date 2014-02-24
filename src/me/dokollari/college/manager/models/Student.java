@@ -7,10 +7,14 @@ import java.io.Serializable;
  */
 
 public class Student implements Serializable {
-    private int studentID = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int studentID = 0;
     private String lastName;
     private String firstName;
-    private int advisorID;//advisor is also an instrucotr, thus having the same id
+    private int advisorID;//advisor is also an instructor, thus having the same id
 
     public Student(int ID, String lastname, String firstname) {
         this.studentID = ID;

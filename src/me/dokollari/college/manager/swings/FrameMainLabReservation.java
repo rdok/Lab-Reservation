@@ -74,8 +74,6 @@ public class FrameMainLabReservation extends JFrame
 
 		BufferedImage bi = ImageIO.read(this.getClass().getResource(
 				"/img/deree.jpg"));
-		// URL url =
-		// (this.getClass().getClassLoader().getResource("/img/deree.jpg"));
 		ImageIcon ii = new ImageIcon(bi);
 		jL_imageDeree.setIcon(ii);
 

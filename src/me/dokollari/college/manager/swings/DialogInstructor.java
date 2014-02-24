@@ -114,7 +114,7 @@ public class DialogInstructor extends JDialog {
             controller.verifyFacultyData(lastnameTF.getText(), firstnameTF.getText(), jTFid.getText(), "Instructor");
             Integer instructor_id = Integer.parseInt(jTFid.getText());
             Instructor new_instructor = new Instructor(lastnameTF.getText(), firstnameTF.getText(), instructor_id);
-            if (!controller.addData(instructor_id, new_instructor, controller.getInstructorsList()))
+            if (!controller.addData(instructor_id, new_instructor,  controller.getInstructorsList()))
                 ;
             {
                 jTFid.setText("");
