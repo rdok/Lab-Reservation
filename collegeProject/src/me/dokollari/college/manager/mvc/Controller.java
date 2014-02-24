@@ -35,20 +35,20 @@ import me.dokollari.college.manager.models.Student;
 
 public class Controller implements Serializable {
 
-    HashMap<Integer, me.dokollari.college.manager.models.Instructor> instructorsList =
+    private HashMap<Integer, me.dokollari.college.manager.models.Instructor> instructorsList =
         new HashMap<Integer, me.dokollari.college.manager.models.Instructor>();
 
-    HashMap<Integer, me.dokollari.college.manager.models.Student> studentsList =
+    private HashMap<Integer, me.dokollari.college.manager.models.Student> studentsList =
         new HashMap<Integer, me.dokollari.college.manager.models.Student>();
 
-    ArrayList<me.dokollari.college.manager.models.Course> courses =
+    private ArrayList<me.dokollari.college.manager.models.Course> courses =
         new ArrayList<me.dokollari.college.manager.models.Course>();
 
-    ArrayList<me.dokollari.college.manager.models.Room> roomList =
+    private ArrayList<me.dokollari.college.manager.models.Room> roomList =
         new ArrayList<me.dokollari.college.manager.models.Room>();
 
-    Calendar currentDate = Calendar.getInstance();
-    SimpleDateFormat dateformatter = new SimpleDateFormat("E MMM.dd.yyyy");
+    private Calendar currentDate = Calendar.getInstance();
+    private SimpleDateFormat dateformatter = new SimpleDateFormat("E MMM.dd.yyyy");
 
 
     /**
@@ -58,21 +58,19 @@ public class Controller implements Serializable {
      * @param new_object the new object to be store in the hashmap, which includes Instructor, and Student class
      * @param chosenHashMap the hash map to be used to store the new objects
      * @return return a boolean variable if the
-     * @throws me.dokollari.college.manager.mvc.ControllerException when a user tries to input data that already exist the CollegeExcpetion will
+     * @throws ControllerException when a user tries to input data that already exist the CollegeExcpetion will
      * make sure it doesn't allow for adding new data to the hashmap
      */
-    public boolean addData(int new_id, Object new_object,
-                           HashMap chosenHashMap) throws me.dokollari.college.manager.mvc.ControllerException {
-        if (chosenHashMap.containsKey(new_id))
-            throw new me.dokollari.college.manager.mvc.ControllerException(new_id +
-                                                                           " is already reserved on database." +
-                                                                           "\nPlease choose a different ID.");
-        else if (chosenHashMap.containsValue(new_object))
-            throw new me.dokollari.college.manager.mvc.ControllerException(new_object +
-                                                                           " is already reserved on database." +
-                                                                           "\nPlease choose different first name or last name.");
-        else
+    public boolean addData(int new_id, Object new_object, HashMap chosenHashMap) throws ControllerException {
+        if (chosenHashMap.containsKey(new_id)) {
+            throw new ControllerException(new_id + " is already reserved on database." +
+                                          "\nPlease choose a different ID.");
+        } else if (chosenHashMap.containsValue(new_object))
+            throw new ControllerException(new_object + " is already reserved on database." +
+                                          "\nPlease choose different first name or last name.");
+        else {
             chosenHashMap.put(new_id, new_object);
+        }
         JOptionPane.showMessageDialog(null, new_object.toString() + " successfully added.");
         return true;
     }
@@ -101,8 +99,9 @@ public class Controller implements Serializable {
      */
     public String listInstructorData(HashMap<Integer, me.dokollari.college.manager.models.Instructor> hash_map) {
         String list = "";
-        for (Map.Entry<Integer, me.dokollari.college.manager.models.Instructor> e : hash_map.entrySet())
+        for (Map.Entry<Integer, me.dokollari.college.manager.models.Instructor> e : hash_map.entrySet()) {
             list += e.getValue() + "\n";
+        } // end for
         return list;
     }
 
@@ -236,9 +235,9 @@ public class Controller implements Serializable {
                 if (currentCal.get(currentCal.WEEK_OF_YEAR) == selectedCal.get(selectedCal.WEEK_OF_YEAR))
                     maxReserPerWeek--;
             }
-            if (maxReserPerWeek == 0)
+            if (maxReserPerWeek == 0) {
                 throw new me.dokollari.college.manager.mvc.ControllerException("Each room can be reserved at most 3 times per week.\nReservation denied.");
-
+            } // end if
         }
 
     }
@@ -307,10 +306,12 @@ public class Controller implements Serializable {
             }
 
             ResultSet instructorSet = db.getInstructors();
+            
             while (instructorSet.next()) {
                 int instructorID = instructorSet.getInt("id");
                 String lastName = instructorSet.getString("last_name");
                 String firstName = instructorSet.getString("first_name");
+                System.out.println(lastName);
                 instructorsList.put(instructorID, new Instructor(lastName, firstName, instructorID));
             }
 

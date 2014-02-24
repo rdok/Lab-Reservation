@@ -7,7 +7,8 @@ public class DB_queries {
     public static final String SELECT_COURSES = "SELECT * FROM labsdb.courses;";
     static final String SELECT_RESERVED_ROOMS = "SELECT * FROM labsdb.reserved_rooms;";
     static final String SELECT_ROOMS = "SELECT * FROM labsdb.rooms;";
-    
+    static final String SELECT_INSTRUCTORS = "SELECT * FROM labsdb.instructors;";
+
     public static final String STUDENT_ID = "id";
     public static final String STUDENT_LAST_NAME = "last_name";
     public static final String STUDENT_FIRST_NAME = "first_name";

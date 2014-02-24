@@ -42,10 +42,10 @@ public class DialogInstructor extends JDialog {
     private JLabel jLabel5 = new JLabel();
 
 
-    public DialogInstructor(Frame parent, String title, boolean modal, Controller theCollege) {
+    public DialogInstructor(Frame parent, String title, boolean modal, Controller controller) {
         super(parent, title, modal);
         try {
-            this.controller = theCollege;
+            this.controller = controller;
             jbInit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,9 +100,9 @@ public class DialogInstructor extends JDialog {
         this.getContentPane().add(lastnameTF, null);
         this.getContentPane().add(jLabel2, null);
         this.getContentPane().add(jLabel1, null);
+        listTA.setFont(new Font("Times New Roman", 0, 12));
         listTA.setText(controller.listInstructorData(controller.getInstructorsList()));
         listTA.setEditable(false);
-        listTA.setFont(new Font("Times New Roman", 0, 12));
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 

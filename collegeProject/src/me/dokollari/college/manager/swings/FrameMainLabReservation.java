@@ -69,7 +69,7 @@ public class FrameMainLabReservation extends JFrame {
         this.getContentPane().setLayout(null);
         this.setSize(new Dimension(781, 440));
         this.setTitle("Deree - American College of Greece - Lab Reservation Data");
-        jL_imageDeree.setIcon(new ImageIcon("Deree.jpg"));
+        jL_imageDeree.setIcon(new ImageIcon("lib/img/Deree.jpg"));
         jM_menuFile.add(jMI_menuFileExit);
         jMB_menuBar.add(jM_menuFile);
         jM_menuHelp.add(jMI_menuHelpAbout);

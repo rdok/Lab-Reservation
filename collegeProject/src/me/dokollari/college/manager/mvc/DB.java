@@ -76,7 +76,7 @@ public class DB {
         
         Connection myConnection = getConnection();
         Statement coursesStatement = myConnection.createStatement();
-        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_COURSES);
+        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_INSTRUCTORS);
 
         getJPB_db().setValue(jPB_db.getValue() + 8);
         getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving Instructor Data");
