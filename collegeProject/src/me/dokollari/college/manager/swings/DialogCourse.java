@@ -95,7 +95,7 @@ public class DialogCourse extends JDialog {
         this.setLocationRelativeTo(null);
         addComboBoxes(controller);
         jTAListCourses.setText(controller.listData(controller.getCoursesList()));
-        jTAListCourses.setFont(new Font("Times New Roman", 0, 12));
+        jTAListCourses.setFont(new Font("Courier New", Font.PLAIN, 12));  
         jTAListCourses.setEditable(false);
         jLabel2.setText("List of Courses");
         jLabel2.setBounds(new Rectangle(15, 240, 150, 15));

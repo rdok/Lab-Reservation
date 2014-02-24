@@ -20,10 +20,11 @@ public class Course implements Serializable {
     private int instructorID;
     private int studentLimit;
     private HashMap<Integer, me.dokollari.college.manager.models.Student> students;
+    private static int maxLengthCourseName = 0;
 
 
-    public Course(String course_title, int student_limit, int instructor_id) {
-        this.courseTitle = course_title;
+    public Course(String courseTitle, int student_limit, int instructor_id) {
+        setCourseTitle(courseTitle);        
         this.studentLimit = student_limit;
         this.instructorID = instructor_id;
         students = new HashMap<Integer, me.dokollari.college.manager.models.Student>();
@@ -57,7 +58,8 @@ public class Course implements Serializable {
     }
 
     public String toString() {
-        return String.format("%-20s\tLimit:%-5d", courseTitle, studentLimit);
+       
+        return String.format("%-" + (maxLengthCourseName + 3) + "sLimit:%-5d", getCourseTitle(), getStudentLimit());
     }
 
     @Override
@@ -90,5 +92,13 @@ public class Course implements Serializable {
 
     public HashMap<Integer, Student> getStudents() {
         return students;
+    }
+
+    public void setCourseTitle(String courseTitle) {
+        int length = courseTitle.length();
+        if(maxLengthCourseName < length) {
+            maxLengthCourseName = length;
+        }
+        this.courseTitle = courseTitle;
     }
 }

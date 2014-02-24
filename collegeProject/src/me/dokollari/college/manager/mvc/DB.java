@@ -131,4 +131,17 @@ public class DB {
     public JProgressBar getJPB_db() {
         return jPB_db;
     }
+
+   public ResultSet getCourseStudents() throws SQLException {
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieving student's courses data");
+        
+        Connection myConnection = getConnection();
+        Statement coursesStatement = myConnection.createStatement();
+        ResultSet resultSet = coursesStatement.executeQuery(DB_queries.SELECT_STUDENTS_COURSES);
+        
+        getJPB_db().setValue(jPB_db.getValue() + 8);
+        getJPB_db().setString(Integer.toString(jPB_db.getValue()) + "% Retrieved student's courses data");
+        return resultSet;
+    }
 } // end DB class

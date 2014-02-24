@@ -3,7 +3,7 @@ package me.dokollari.college.manager.models;
 import java.io.Serializable;
 
 
- /** @author Rizart Dokollari
+/** @author Rizart Dokollari
  * @since November, 2012
  */
 
@@ -35,7 +35,7 @@ public class Instructor  implements Serializable {
     }
     
     public String toString () {
-        return String.format("Prof. %-20s  %-20s %10d",lastName ,firstName, instructorID);
+        return String.format("Prof. %-13s  %-13s %7d",lastName ,firstName, instructorID);
         }
 
 

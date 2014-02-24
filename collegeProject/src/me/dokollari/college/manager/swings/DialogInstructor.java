@@ -31,7 +31,7 @@ public class DialogInstructor extends JDialog {
     private JTextField firstnameTF = new JTextField();
     private JSeparator jSeparator1 = new JSeparator();
     private JScrollPane jScrollPane1 = new JScrollPane();
-    private JTextArea listTA = new JTextArea();
+    private JTextArea jTA_data = new JTextArea();
     private JButton jButton1 = new JButton();
     private Controller controller = new Controller();
     private JTextField jTFid = new JTextField();
@@ -93,16 +93,16 @@ public class DialogInstructor extends JDialog {
         this.getContentPane().add(jLabel3, null);
         this.getContentPane().add(jTFid, null);
         this.getContentPane().add(jButton1, null);
-        jScrollPane1.getViewport().add(listTA, null);
+        jScrollPane1.getViewport().add(jTA_data, null);
         this.getContentPane().add(jScrollPane1, null);
         this.getContentPane().add(jSeparator1, null);
         this.getContentPane().add(firstnameTF, null);
         this.getContentPane().add(lastnameTF, null);
         this.getContentPane().add(jLabel2, null);
         this.getContentPane().add(jLabel1, null);
-        listTA.setFont(new Font("Times New Roman", 0, 12));
-        listTA.setText(controller.listInstructorData(controller.getInstructorsList()));
-        listTA.setEditable(false);
+        jTA_data.setFont(new Font("Courier New", Font.PLAIN, 12));  
+        jTA_data.setText(controller.listInstructorData(controller.getInstructorsList()));
+        jTA_data.setEditable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
@@ -120,7 +120,7 @@ public class DialogInstructor extends JDialog {
                 jTFid.setText("");
                 lastnameTF.setText("");
                 firstnameTF.setText("");
-                listTA.setText(controller.listInstructorData(controller.getInstructorsList()));
+                jTA_data.setText(controller.listInstructorData(controller.getInstructorsList()));
             }
         } catch (ControllerException k) {
             JOptionPane.showMessageDialog(null, k.getMessage(), "Data error", JOptionPane.WARNING_MESSAGE);
@@ -134,7 +134,7 @@ public class DialogInstructor extends JDialog {
             int ID = Integer.parseInt(input);
             if (controller.getInstructorsList().containsKey(ID)){
                 controller.getInstructorsList().remove(ID);
-                listTA.setText(controller.listInstructorData(controller.getInstructorsList()));
+                jTA_data.setText(controller.listInstructorData(controller.getInstructorsList()));
             }
             else
                 throw new ControllerException("ID not found");

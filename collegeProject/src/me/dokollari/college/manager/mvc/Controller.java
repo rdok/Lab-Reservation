@@ -286,7 +286,7 @@ public class Controller implements Serializable {
             } // end while
 
             ResultSet coursesSet = db.getCourses();
-            ResultSet studentsSet = db.getStudents();
+            ResultSet students_courses_Set = db.getCourseStudents();
 
             int number_of_courses = 0;
 
@@ -298,9 +298,10 @@ public class Controller implements Serializable {
 
                 // check current course (JOIN)
                 Course currentCourse = courses.get(number_of_courses);
-                while (studentsSet.next()) {
-                    if (currentCourse.getCourseTitle().equals(studentsSet.getString("course_title")))
-                        currentCourse.registerStudent(studentsList.get(studentsSet.getInt("id")));
+                while (students_courses_Set.next()) {
+                    if (currentCourse.getCourseTitle().equals(students_courses_Set.getString("course_title"))) {
+                        currentCourse.registerStudent(studentsList.get(students_courses_Set.getInt("id")));
+                    } // end if
                 }
                 number_of_courses++;
             }
@@ -311,7 +312,6 @@ public class Controller implements Serializable {
                 int instructorID = instructorSet.getInt("id");
                 String lastName = instructorSet.getString("last_name");
                 String firstName = instructorSet.getString("first_name");
-                System.out.println(lastName);
                 instructorsList.put(instructorID, new Instructor(lastName, firstName, instructorID));
             }
 
@@ -325,7 +325,7 @@ public class Controller implements Serializable {
                 Room room = new Room(emptyRoomTitle);
                 roomList.add(room);
 
-                Room currentRoom = getRoomList().get(number_of_courses);
+                Room currentRoom = getRoomList().get(roomEntry);
                 while (reservedRoomSet.next()) {
                     String dateReserved = reservedRoomSet.getString("date");
                     String reservedRoomTitle = reservedRoomSet.getString("title");
@@ -340,7 +340,7 @@ public class Controller implements Serializable {
 
             students.close();
             coursesSet.close();
-            studentsSet.close();
+            students_courses_Set.close();
             instructorSet.close();
             roomsSet.close();
             reservedRoomSet.close();
